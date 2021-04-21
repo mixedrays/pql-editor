@@ -12,7 +12,7 @@ const Editor: React.FC<{ language: string; }> = ({language}) => {
     if (!divNode) return;
 
     monaco.editor.create(divNode, {
-      value: 'test OR OR car AND (door)',
+      value: '',
       language,
       minimap: {enabled: false},
       autoIndent: true
