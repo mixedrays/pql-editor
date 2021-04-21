@@ -1,5 +1,5 @@
 import {QueryContext} from "../ANTLR/PQL2Parser";
-import {parseAndGetASTRoot, parseAndGetSyntaxErrors} from "./Parser";
+import {parseAndGetASTRoot, parseAndGetSyntaxErrors} from "./parser";
 import {ILangError} from "./LangErrorListener";
 
 export default class LangLanguageService {
