@@ -136,7 +136,7 @@ const Editor: React.FC<{ language: string; }> = ({language}) => {
     if (!divNode) return;
 
     monaco.editor.create(divNode, {
-      value: 'one AND NOT !nD HIGH LOW  (test >= 2, test2^0.3)\n{comment} 123 [test]\noperators < > >= && & $ $$ | ~+#!@/ ?\nsep_ara-tors _,:-\n$cpu\ntest+:FR ~cpu',
+      value: '',
       language,
       theme: 'pqlTheme',
       // lineNumbers: 'off',
