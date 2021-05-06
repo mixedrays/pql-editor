@@ -1,6 +1,55 @@
 import * as React from 'react';
 import * as monaco from 'monaco-editor-core';
 
+function createDependencyProposals(range) {
+  // returning a static list of proposals, not even looking at the prefix (filtering is done by the Monaco editor),
+  // here you could do a server side lookup
+  return [
+    {
+      label: 'AND operator and some description',
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: "AND operator documentation",
+      insertText: 'AND',
+      range: range
+    },
+    {
+      label: 'OR',
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: "OR operator documentation",
+      insertText: 'OR',
+      range: range
+    },
+    {
+      label: 'HIGH',
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: "HIGH operator documentation",
+      insertText: 'HIGH',
+      range: range
+    },
+    {
+      label: 'HI',
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: "HI operator documentation",
+      insertText: 'HI',
+      range: range
+    },
+    {
+      label: '"cpu" search concept autocomplete example',
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: "~cpu",
+      insertText: '~cpu (memory AND processor)',
+      range: range
+    },
+    {
+      label: '"heart" search concept autocomplete example',
+      kind: monaco.languages.CompletionItemKind.Function,
+      documentation: "~heart",
+      insertText: '~heart (pulse AND pressure)',
+      range: range
+    }
+  ];
+}
+
 const Editor: React.FC<{ language: string; }> = ({language}) => {
   let divNode;
   const assignRef = React.useCallback((node) => {
@@ -68,13 +117,29 @@ const Editor: React.FC<{ language: string; }> = ({language}) => {
     }
   });
 
+  monaco.languages.registerCompletionItemProvider(language, {
+    provideCompletionItems: function(model, position) {
+      const word = model.getWordUntilPosition(position);
+      const range = {
+        startLineNumber: position.lineNumber,
+        endLineNumber: position.lineNumber,
+        startColumn: word.startColumn,
+        endColumn: word.endColumn
+      };
+      return {
+        suggestions: createDependencyProposals(range)
+      };
+    }
+  });
+
   React.useEffect(() => {
     if (!divNode) return;
 
     monaco.editor.create(divNode, {
-      value: '',
+      value: 'one AND NOT !nD HIGH LOW  (test >= 2, test2^0.3)\n{comment} 123 [test]\noperators < > >= && & $ $$ | ~+#!@/ ?\nsep_ara-tors _,:-\n$cpu\ntest+:FR ~cpu',
       language,
       theme: 'pqlTheme',
+      // lineNumbers: 'off',
       minimap: {enabled: false},
       autoIndent: true
     });
