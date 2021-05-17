@@ -118,7 +118,7 @@ const Editor: React.FC<{ language: string; }> = ({language}) => {
   });
 
   monaco.languages.registerCompletionItemProvider(language, {
-    provideCompletionItems: function(model, position) {
+    provideCompletionItems: function (model, position) {
       const word = model.getWordUntilPosition(position);
       const range = {
         startLineNumber: position.lineNumber,
@@ -143,9 +143,36 @@ const Editor: React.FC<{ language: string; }> = ({language}) => {
       minimap: {enabled: false},
       autoIndent: true
     });
-  }, [assignRef])
+  }, [assignRef]);
 
-  return <div ref={assignRef} style={{height: '300px', width: '500px', border: '1px solid #ccc'}}/>;
+  const editors = Array(30).fill('');
+
+  return (
+      <div style={{fontFamily: 'sans-serif'}}>
+        {/* multiple instances */}
+        {/*{editors.map((_, i) => (*/}
+        {/*        <div*/}
+        {/*            key={i}*/}
+        {/*            ref={(node) => {*/}
+        {/*              if (!node) return;*/}
+
+        {/*              monaco.editor.create(node, {*/}
+        {/*                value: `editor ${i}`,*/}
+        {/*                language,*/}
+        {/*                theme: 'pqlTheme',*/}
+        {/*                // lineNumbers: 'off',*/}
+        {/*                minimap: {enabled: false},*/}
+        {/*                autoIndent: true*/}
+        {/*              });*/}
+        {/*            }}*/}
+        {/*            style={{height: '300px', width: '500px', border: '1px solid #ccc', marginBottom: 10}}*/}
+        {/*        />*/}
+        {/*    )*/}
+        {/*)}*/}
+
+        <div ref={assignRef} style={{height: '300px', width: '500px', border: '1px solid #ccc'}}/>
+      </div>
+  );
 }
 
 export default Editor;

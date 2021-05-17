@@ -11,7 +11,7 @@ export default class DiagnosticsAdapter {
         // here we are Debouncing the user changes, so everytime a new change is done, we wait 500ms before validating
         // otherwise if the user is still typing, we cancel the
         clearTimeout(handle);
-        handle = setTimeout(() => this.validate(model.uri), 500);
+        handle = setTimeout(() => this.validate(model.uri), 100);
       });
 
       this.validate(model.uri);
@@ -24,8 +24,8 @@ export default class DiagnosticsAdapter {
   private async validate(resource: monaco.Uri): Promise<void> {
     // get the worker proxy
     const worker = await this.worker(resource)
-    // call the validate methode proxy from the langaueg service and get errors
-    const errorMarkers = await worker.doValidation();
+    // call the validate methode proxy from the language service and get errors
+    const errorMarkers = await worker.doValidation(resource);
     // get the current model(editor or file) which is only one
     const model = monaco.editor.getModel(resource);
     // add the error markers and underline them with severity of Error

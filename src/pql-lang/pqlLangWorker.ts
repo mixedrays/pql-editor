@@ -14,8 +14,8 @@ export class PqlLangWorker {
     this.languageService = new LangLanguageService();
   }
 
-  doValidation(): Promise<ILangError[]> {
-    const code = this.getTextDocument();
+  doValidation(resource: monaco.Uri): Promise<ILangError[]> {
+    const code = this.getTextDocument(resource);
     return Promise.resolve(this.languageService.validate(code));
   }
 
@@ -23,9 +23,10 @@ export class PqlLangWorker {
     return Promise.resolve(this.languageService.format(code));
   }
 
-  private getTextDocument(): string {
-    const model = this._ctx.getMirrorModels()[0];// When there are multiple files open, this will be an array
-    return model.getValue();
-  }
+  private getTextDocument(resource: monaco.Uri): string {
+    const models = this._ctx.getMirrorModels();
+    const model = models.find((m) => m.uri.path === resource.path)
 
+    return model ? model.getValue() : '';
+  }
 }
