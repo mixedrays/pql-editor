@@ -2,22 +2,28 @@ import * as monaco from "monaco-editor-core";
 import IRichLanguageConfiguration = monaco.languages.LanguageConfiguration;
 import ILanguage = monaco.languages.IMonarchLanguage;
 
+export const pqlTokens = {
+  keywords: ['AND', 'OR', 'nUG', 'nOG', 'nD', 'nW', 'S', 'L', 'P', 'F', 'IN', 'YES', 'NO'],
+  excludingOperators: ['NOT', 'NOV', '!nD', '!nW', '!S', '!L', '!P', '!F', '!IN'],
+  qualifiers: ['EN', 'FR', 'DE', 'CPC'],
+  hierarchyOperators: ['HIGH', 'LOW', 'SAME'],
+}
+
 export const richLanguageConfiguration: IRichLanguageConfiguration = {
   comments: {
     blockComment: ['{', '}']
   },
 };
 
+const {keywords, excludingOperators, qualifiers, hierarchyOperators} = pqlTokens;
+
 export const monarchLanguage = <ILanguage>{
   defaultToken: 'invalid',
 
-  keywords: ['AND', 'OR', 'nUG', 'nOG', 'nD', 'nW', 'S', 'L', 'P', 'F', 'IN', 'YES', 'NO'],
-
-  excludingOperators: ['NOT', 'NOV', '!nD', '!nW', '!S', '!L', '!P', '!F', '!IN'],
-
-  qualifiers: ['EN', 'FR', 'DE', 'CPC'],
-
-  hierarchyOperators: ['HIGH', 'LOW', 'SAME'],
+  keywords,
+  excludingOperators,
+  qualifiers,
+  hierarchyOperators,
 
   operators: ['=', '>', '>=', '<', '<=', '|', '&', '~', '@', '/', '!', '^', '?', '+', '#', '$'],
 
